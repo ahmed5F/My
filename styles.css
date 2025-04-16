@@ -1,0 +1,166 @@
+/* التنسيق العام */
+body {
+  font-family: 'Tajawal', sans-serif;
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* رأس الصفحة */
+header {
+  background-color: #1c1c1c;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+  background-image: url('background.jpg'); /* صورة خلفية */
+  background-size: cover;
+  background-position: center;
+  border-bottom: 3px solid #ffcc00;
+}
+
+header .intro {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+header h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+/* التنقل بين الأقسام */
+nav ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #ffcc00;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: #ff9800;
+}
+
+/* الأقسام */
+section {
+  padding: 40px 20px;
+  margin: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+section h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #ffcc00;
+}
+
+/* معرض الأعمال */
+.portfolio-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.portfolio-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.portfolio-item img:hover {
+  transform: scale(1.1);
+}
+
+/* التفاعل الاجتماعي */
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icon {
+  font-size: 24px;
+  margin: 0 10px;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #ffcc00;
+}
+
+/* ردود الزبائن */
+#testimonials p {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+/* التفاعل عند التمرير */
+@media (max-width: 768px) {
+  nav ul li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .portfolio-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* الفوتر */
+footer {
+  background-color: #1c1c1c;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+footer a {
+  color: #f4faff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+/* تأثير التمرير */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+[data-aos] {
+  animation-duration: 1s;
+  animation-name: fadeIn;
+}
