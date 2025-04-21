@@ -2,95 +2,218 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>موقعي الشخصي</title>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>الرئيسية - موقع قسمنا</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Tajawal", sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* زر القائمة */
+    .menu-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #FFD700;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 26px;
+      z-index: 1001;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #FFD700aa;
+      transition: 0.3s;
+    }
+
+    .menu-toggle:hover {
+      background-color: #e6c200;
+    }
+
+    /* القائمة الجانبية */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -270px;
+      width: 250px;
+      height: 100%;
+      background-color: #111;
+      padding: 20px;
+      transition: right 0.4s ease;
+      z-index: 1000;
+      box-shadow: -5px 0 15px #000;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar h2 {
+      color: #FFD700;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 22px;
+      border-bottom: 1px solid #FFD70033;
+      padding-bottom: 10px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #FFD700;
+      text-decoration: none;
+      padding: 12px;
+      margin: 8px 0;
+      background-color: #222;
+      border-radius: 6px;
+      transition: background-color 0.3s, color 0.3s;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .sidebar a:hover {
+      background-color: #FFD700;
+      color: #000;
+    }
+
+    /* المحتوى الرئيسي */
+    .main-content {
+      padding: 80px 20px 40px;
+      text-align: center;
+    }
+
+    .main-content h1 {
+      color: #FFD700;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .main-content p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .intro-text {
+      background-color: #222;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .intro-text h2 {
+      font-size: 22px;
+      color: #FFD700;
+      margin-bottom: 15px;
+    }
+
+    .intro-text p {
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .motivational-text {
+      background-color: #333;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 30px;
+      color: #FFD700;
+    }
+
+    .motivational-text h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .motivational-text p {
+      font-size: 18px;
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .sidebar {
+        width: 200px;
+      }
+
+      .menu-toggle {
+        font-size: 22px;
+        padding: 8px 12px;
+      }
+
+      .sidebar a {
+        font-size: 15px;
+      }
+
+      .main-content h1 {
+        font-size: 22px;
+      }
+
+      .main-content p {
+        font-size: 16px;
+      }
+
+      .intro-text h2 {
+        font-size: 20px;
+      }
+
+      .intro-text p {
+        font-size: 16px;
+      }
+
+      .motivational-text h3 {
+        font-size: 20px;
+      }
+
+      .motivational-text p {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header data-aos="fade-down">
-    <div class="intro">
-      <h1>مرحباً بك في موقعي الشخصي</h1>
-      <p>أحمد، مصمم جرافيك أؤمن بأن كل تصميم يحمل قصة. تصفح موقعي واكتشف كيف أحوّل الرؤية إلى واقع بصري مميز.!</p>
+
+  <!-- زر القائمة -->
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+  <!-- القائمة الجانبية -->
+  <div class="sidebar" id="sidebar">
+    <h2>أقسام الموقع</h2>
+    <a href="summaries.html">الملخصات</a>
+    <a href="questions.html">الأسئلة الوزارية</a>
+    <a href="notes.html">ملاحظات الأساتذة</a>
+    <a href="results.html">النتائج</a>
+    <a href="files.html">الملفات العامة</a>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content">
+    <h1>أهلاً بكم في موقع طلاب قسم اللغة الإنجليزية</h1>
+    
+    <!-- مقدمة -->
+    <div class="intro-text">
+      <h2>عن الموقع</h2>
+      <p>مرحباً بكم في موقع قسم اللغة الإنجليزية. هذا الموقع يهدف إلى تقديم الدعم الكامل للطلاب عبر توفير مصادر تعليمية قيمة مثل الملخصات الدراسية، الأسئلة الوزارية السابقة، ملاحظات الأساتذة، والعديد من الملفات الأخرى التي يمكن أن تساعدكم في الدراسة والتحضير للامتحانات.</p>
+      <p>يمكنكم اختيار القسم الذي تودون الاطلاع عليه من القائمة الجانبية للانتقال مباشرة إلى المحتوى المتاح.</p>
     </div>
-    <nav>
-      <ul>
-        <li><a href="#home">الرئيسية</a></li>
-        <li><a href="#about">من أنا</a></li>
-        <li><a href="#services">خدماتي</a></li>
-        <li><a href="#portfolio">أعمالي</a></li>
-        <li><a href="#testimonials">آراء الزبائن</a></li>
-        <li><a href="#contact">تواصل معي</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <section id="home" data-aos="fade-up">
-    <h2>أهلاً وسهلاً</h2>
-    <p>أصمّم بشغف لأخلق أعمالاً تترك أثراً.. الجودة والتميّز هدفي بكل مشروع..</p>
-  </section>
-
-  <section id="about" data-aos="fade-right">
-    <h2>من أنا</h2>
-    <p>أنا أحمد، من مدينة ذي قار الجميلة. شغفي بالإبداع دفعني إلى التخصص في تصميم البوسترات الرياضية التي تعكس الحماس والطاقة، وكذلك في تصميم الإعلانات التجارية التي تنبض بالحياة وتلفت الأنظار. كما أنني أتمتع بمهارة تصميم المواقع البسيطة التي تجمع بين الجمال والسهولة في الاستخدام، مما يجعلها مثالية للأفراد والشركات الذين يسعون للظهور بشكل مميز على الإنترنت.
-
-أؤمن أن كل تصميم يحمل رسالة، وأن كل فكرة يمكن أن تتحول إلى واقع بصري رائع. لذلك، أسعى دائمًا لتحقيق أفضل تجربة للمستخدمين والعملاء من خلال تصاميم مبتكرة، تحترم ذوقهم وتلبي احتياجاتهمء.</p>
-  </section>
-
-  <section id="services" data-aos="zoom-in">
-    <h2>خدماتي</h2>
-    <ul>
-      <li>تصميم بوسترات رياضية</li>
-      <li> تصميم اعلانات تجاريه</li>
-      <li>تصميم مواقع بسيطة</li>
-    </ul>
-  </section>
-
-  <section id="portfolio" data-aos="fade-up">
-    <h2>أعمالي</h2>
-    <div class="portfolio-gallery">
-      <div class="portfolio-item" data-aos="zoom-in">
-        <img src="https://i.ibb.co/W4T2tPtF/5-BD21-AE9-9-A83-400-C-A50-C-9-F88148-A412-E.jpg" alt="5-BD21-AE9-9-A83-400-C-A50-C-9-F88148-A412-E">
-      </div>
-      <div class="portfolio-item" data-aos="zoom-in">
-        <img src="https://i.ibb.co/3q6XYVG/IMG-6145.jpg" alt="IMG-6145">
-      </div>
-      <div class="portfolio-item" data-aos="zoom-in">
-        <img src="https://i.ibb.co/CpT3KRxD/IMG-4106.jpg" alt="IMG-4106">
-      </div>
+    <!-- النص التحفيزي -->
+    <div class="motivational-text">
+      <h3>رحلة النجاح تبدأ من هنا</h3>
+      <p>بداية جديدة، رحلة تعليمية مليئة بالتحديات والفرص. في موقعنا، تجد كل ما يساعدك لتحقيق التفوق في دراستك.</p>
+      <p>لا تتردد في العودة إلى الموقع باستمرار، لأن كل مادة أو ملخص جديد سيكون خطوة أخرى نحو النجاح.</p>
     </div>
-  </section>
 
-  <section id="testimonials" data-aos="fade-left">
-    <h2>آراء الزبائن</h2>
-    <p>"عمل رائع وسرعة بالتسليم!"</p>
-    <p>"تصميمات احترافية جداً."</p>
-  </section>
+    <p>اضغط على زر القائمة في الأعلى واختر القسم الذي تريده لمشاهدة المعلومات أو تحميل الملفات الخاصة.</p>
+  </div>
 
-  <section id="contact" data-aos="zoom-in-up">
-    <h2>تواصل معي</h2>
-    <p>راسلني عبر الإيميل: bkwrya552@gmail.com</p>
-    <div class="social-icons">
-      <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-      <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
-      <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-    </div>
-  </section>
-
-  <footer data-aos="fade-up">
-  <p>تابعني على:</p>
-  <a href="https://www.instagram.com/d4_78/profilecard/?igsh=cTQzbWs0ZW00aG52" target="_blank">إنستغرام</a> |
-  <a href="https://www.facebook.com/share/1EfP4eFobF/?mibextid=wwXIfr" target="_blank">فيسبوك</a> |
-  <a href="https://t.me/d4_78" target="_blank">تلغرام</a>
-  <p>© 2025 جميع الحقوق محفوظة</p>
-</footer>
-
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init({
-      duration: 1000,
-      once: true
-    });
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
   </script>
+
 </body>
 </html>
