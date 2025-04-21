@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>الملخصات - موقع قسمنا</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Tajawal", sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* زر القائمة */
+    .menu-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #FFD700;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 26px;
+      z-index: 1001;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #FFD700aa;
+      transition: 0.3s;
+    }
+
+    .menu-toggle:hover {
+      background-color: #e6c200;
+    }
+
+    /* القائمة الجانبية */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -270px;
+      width: 250px;
+      height: 100%;
+      background-color: #111;
+      padding: 20px;
+      transition: right 0.4s ease;
+      z-index: 1000;
+      box-shadow: -5px 0 15px #000;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar h2 {
+      color: #FFD700;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 22px;
+      border-bottom: 1px solid #FFD70033;
+      padding-bottom: 10px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #FFD700;
+      text-decoration: none;
+      padding: 12px;
+      margin: 8px 0;
+      background-color: #222;
+      border-radius: 6px;
+      transition: background-color 0.3s, color 0.3s;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .sidebar a:hover {
+      background-color: #FFD700;
+      color: #000;
+    }
+
+    /* المحتوى الرئيسي */
+    .main-content {
+      padding: 80px 20px 40px;
+      text-align: center;
+    }
+
+    .main-content h1 {
+      color: #FFD700;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .main-content p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .intro-text {
+      background-color: #222;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .intro-text h2 {
+      font-size: 22px;
+      color: #FFD700;
+      margin-bottom: 15px;
+    }
+
+    .intro-text p {
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .summaries-list {
+      background-color: #333;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+
+    .summaries-list h3 {
+      font-size: 22px;
+      color: #FFD700;
+      margin-bottom: 15px;
+    }
+
+    .summaries-list ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .summaries-list li {
+      margin: 10px 0;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .sidebar {
+        width: 200px;
+      }
+
+      .menu-toggle {
+        font-size: 22px;
+        padding: 8px 12px;
+      }
+
+      .sidebar a {
+        font-size: 15px;
+      }
+
+      .main-content h1 {
+        font-size: 22px;
+      }
+
+      .main-content p {
+        font-size: 16px;
+      }
+
+      .intro-text h2 {
+        font-size: 20px;
+      }
+
+      .intro-text p {
+        font-size: 16px;
+      }
+
+      .summaries-list h3 {
+        font-size: 20px;
+      }
+
+      .summaries-list li {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- زر القائمة -->
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+  <!-- القائمة الجانبية -->
+  <div class="sidebar" id="sidebar">
+    <h2>أقسام الموقع</h2>
+    <a href="index.html">الرئيسية</a>
+    <a href="summaries.html">الملخصات</a>
+    <a href="questions.html">الأسئلة المد</a>
+    <a href="notes.html">ملاحظات الأساتذة</a>
+    <a href="results.html">النتائج</a>
+    <a href="files.html">الملفات العامة</a>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content">
+    <h1>الملخصات الدراسية</h1>
+
+    <!-- مقدمة -->
+    <div class="intro-text">
+      <h2>عن الملخصات</h2>
+      <p>هنا تجدون مجموعة من الملخصات الدراسية التي تم إعدادها من قبل الأساتذة. هذه الملخصات تساعدكم على فهم أهم النقاط والمواضيع التي تهمكم في مادة اللغة الإنجليزية.</p>
+    </div>
+
+    <!-- قائمة الملخصات -->
+    <div class="summaries-list">
+      <h3>قائمة الملخصات المتوفرة:</h3>
+      <ul>
+        <li><a href="summary1.pdf">ملخص الفصل الأول</a></li>
+        <li><a href="summary2.pdf">ملخص الفصل الثاني</a></li>
+        <li><a href="summary3.pdf">ملخص الفصل الثالث</a></li>
+        <li><a href="summary4.pdf">ملخص الفصل الرابع</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>
