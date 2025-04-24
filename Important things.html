@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مخطط السونوريتي</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      padding: 30px;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #004080;
+    }
+    .level {
+      margin-bottom: 20px;
+    }
+    .level h2 {
+      margin: 5px 0;
+      color: #0066cc;
+    }
+    .examples {
+      color: #666;
+      margin-right: 10px;
+    }
+    .arrow {
+      text-align: center;
+      font-size: 24px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>مخطط السونوريتي (Sonority Hierarchy)</h1>
+
+    <div class="level">
+      <h2>6. Vowels (الصوتيات)</h2>
+      <p class="examples">أمثلة: /a/, /e/, /i/, /o/, /u/</p>
+      <p>أعلى درجة سونوريتي – مجرى الهواء مفتوح بالكامل.</p>
+    </div>
+
+    <div class="arrow">⬆️</div>
+
+    <div class="level">
+      <h2>5. Glides (شبه صوتيات)</h2>
+      <p class="examples">أمثلة: /j/ (مثل yes), /w/ (مثل we)</p>
+      <p>شبه صوتيات، قريبة من الحروف الصوتية بس أقل انفتاح.</p>
+    </div>
+
+    <div class="arrow">⬆️</div>
+
+    <div class="level">
+      <h2>4. Liquids (السوائل)</h2>
+      <p class="examples">أمثلة: /l/, /r/</p>
+      <p>تسمح بتدفق كبير للهواء مع بعض التضييق.</p>
+    </div>
+
+    <div class="arrow">⬆️</div>
+
+    <div class="level">
+      <h2>3. Nasals (الأنفية)</h2>
+      <p class="examples">أمثلة: /m/, /n/, /ŋ/</p>
+      <p>الهواء يخرج من الأنف، مستوى سونوريتي متوسط.</p>
+    </div>
+
+    <div class="arrow">⬆️</div>
+
+    <div class="level">
+      <h2>2. Fricatives (الاحتكاكية)</h2>
+      <p class="examples">أمثلة: /f/, /v/, /s/, /z/, /ʃ/, /θ/</p>
+      <p>الهواء يحتك عند خروجه، سونوريتي أقل.</p>
+    </div>
+
+    <div class="arrow">⬆️</div>
+
+    <div class="level">
+      <h2>1. Stops (الانفجارية)</h2>
+      <p class="examples">أمثلة: /p/, /b/, /t/, /d/, /k/, /g/</p>
+      <p>انغلاق تام لمجرى الهواء، أقل درجة سونوريتي.</p>
+    </div>
+
+    <div class="arrow">⬇️</div>
+    <p style="text-align:center; font-weight:bold;">الأقل سونوريتي</p>
+  </div>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>اختبار السونوريتي</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f2f2;
+      padding: 30px;
+    }
+    .quiz-box {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px #ccc;
+    }
+    h2 {
+      color: #004080;
+    }
+    button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      background-color: #e0e0e0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #d0d0d0;
+    }
+    .correct {
+      background-color: #c8f7c5;
+    }
+    .wrong {
+      background-color: #f8d7da;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>اختبار السونوريتي – تفاعلي</h1>
+
+  <div class="quiz-box">
+    <h2>1. ما هو الصوت الأقل سونوريتي؟</h2>
+    <button onclick="checkAnswer(this, false)">/m/</button>
+    <button onclick="checkAnswer(this, true)">/s/</button>
+    <button onclick="checkAnswer(this, false)">/a/</button>
+    <button onclick="checkAnswer(this, false)">/n/</button>
+  </div>
+
+  <div class="quiz-box">
+    <h2>2. أي من الآتي يُعد صوتًا أنفيًا؟</h2>
+    <button onclick="checkAnswer(this, false)">/b/</button>
+    <button onclick="checkAnswer(this, true)">/m/</button>
+    <button onclick="checkAnswer(this, false)">/z/</button>
+    <button onclick="checkAnswer(this, false)">/r/</button>
+  </div>
+
+  <div class="quiz-box">
+    <h2>3. رتب الأصوات: /p/, /l/, /e/ (من الأقل للأعلى)</h2>
+    <button onclick="checkAnswer(this, false)">/l/ < /p/ < /e/</button>
+    <button onclick="checkAnswer(this, false)">/e/ < /l/ < /p/</button>
+    <button onclick="checkAnswer(this, true)">/p/ < /l/ < /e/</button>
+    <button onclick="checkAnswer(this, false)">/p/ < /e/ < /l/</button>
+  </div>
+
+  <div class="quiz-box">
+    <h2>4. ما نوع الصوت /ʃ/؟</h2>
+    <button onclick="checkAnswer(this, false)">Stop</button>
+    <button onclick="checkAnswer(this, false)">Glide</button>
+    <button onclick="checkAnswer(this, true)">Fricative</button>
+    <button onclick="checkAnswer(this, false)">Nasal</button>
+  </div>
+
+  <div class="quiz-box">
+    <h2>5. أي الأصوات الآتية يُعد من الـ Glides؟</h2>
+    <button onclick="checkAnswer(this, true)">/w/</button>
+    <button onclick="checkAnswer(this, false)">/d/</button>
+    <button onclick="checkAnswer(this, false)">/z/</button>
+    <button onclick="checkAnswer(this, false)">/ŋ/</button>
+  </div>
+
+  <div class="quiz-box">
+    <h2>6. ما ترتيب السونوريتي الصحيح؟</h2>
+    <button onclick="checkAnswer(this, true)">Stop < Nasal < Liquid < Vowel</button>
+    <button onclick="checkAnswer(this, false)">Stop < Fricative < Glide < Nasal</button>
+    <button onclick="checkAnswer(this, false)">Fricative < Stop < Nasal < Vowel</button>
+    <button onclick="checkAnswer(this, false)">Glide < Liquid < Fricative < Vowel</button>
+  </div>
+
+  <div class="quiz-box">
+    <h2>7. أي من الآتي صوت احتكاكي؟</h2>
+    <button onclick="checkAnswer(this, false)">/k/</button>
+    <button onclick="checkAnswer(this, false)">/m/</button>
+    <button onclick="checkAnswer(this, true)">/f/</button>
+    <button onclick="checkAnswer(this, false)">/l/</button>
+  </div>
+
+  <div class="quiz-box">
+    <h2>8. أي من هذه الأصوات أعلى سونوريتي؟</h2>
+    <button onclick="checkAnswer(this, false)">/b/</button>
+    <button onclick="checkAnswer(this, true)">/w/</button>
+    <button onclick="checkAnswer(this, false)">/s/</button>
+    <button onclick="checkAnswer(this, false)">/n/</button>
+  </div>
+
+  <div class="quiz-box">
+    <h2>9. ما هو الصوت الذي يملك أعلى سونوريتي؟</h2>
+    <button onclick="checkAnswer(this, false)">/r/</button>
+    <button onclick="checkAnswer(this, false)">/d/</button>
+    <button onclick="checkAnswer(this, true)">/i/</button>
+    <button onclick="checkAnswer(this, false)">/z/</button>
+  </div>
+
+  <div class="quiz-box">
+    <h2>10. رتب: /ɑ/, /n/, /t/ (من الأعلى للأقل)</h2>
+    <button onclick="checkAnswer(this, false)">/n/ > /ɑ/ > /t/</button>
+    <button onclick="checkAnswer(this, true)">/ɑ/ > /n/ > /t/</button>
+    <button onclick="checkAnswer(this, false)">/t/ > /n/ > /ɑ/</button>
+    <button onclick="checkAnswer(this, false)">/ɑ/ > /t/ > /n/</button>
+  </div>
+
+  <script>
+    function checkAnswer(button, correct) {
+      if (correct) {
+        button.classList.add("correct");
+        button.innerText = "✔️ " + button.innerText;
+      } else {
+        button.classList.add("wrong");
+        button.innerText = "❌ " + button.innerText;
+      }
+
+      // منع اختيار زر ثاني بعد الضغط
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+    }
+  </script>
+
+</body>
+</html>
+
+  <!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>جدول الحروف الصوتية</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      direction: rtl;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+    th, td {
+      border: 1px solid #888;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #444;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+
+<h2>جدول الحروف الإنجليزية مع نطقها بالرسم الصوتي (IPA)</h2>
+<table>
+  <tr>
+    <th>الحرف</th>
+    <th>مثال</th>
+    <th>الرسم الصوتي</th>
+    <th>الشرح</th>
+  </tr>
+  <tr><td>A</td><td>cat</td><td>/æ/</td><td>صوت قصير</td></tr>
+  <tr><td>A</td><td>name</td><td>/eɪ/</td><td>صوت مركب (diphthong)</td></tr>
+  <tr><td>B</td><td>bed</td><td>/b/</td><td>صوت ساكن</td></tr>
+  <tr><td>C</td><td>cat</td><td>/k/</td><td>إذا أجا بعده a, o, u</td></tr>
+  <tr><td>C</td><td>city</td><td>/s/</td><td>إذا أجا بعده e, i, y</td></tr>
+  <tr><td>D</td><td>dog</td><td>/d/</td><td>صوت ساكن</td></tr>
+  <tr><td>E</td><td>bed</td><td>/ɛ/</td><td>صوت قصير</td></tr>
+  <tr><td>E</td><td>me</td><td>/iː/</td><td>صوت طويل</td></tr>
+  <tr><td>F</td><td>fun</td><td>/f/</td><td>صوت ساكن</td></tr>
+  <tr><td>G</td><td>go</td><td>/ɡ/</td><td>إذا أجا بعده a, o, u</td></tr>
+  <tr><td>G</td><td>giant</td><td>/dʒ/</td><td>إذا أجا بعده e, i, y</td></tr>
+  <tr><td>H</td><td>hat</td><td>/h/</td><td>صوت ساكن</td></tr>
+  <tr><td>I</td><td>sit</td><td>/ɪ/</td><td>صوت قصير</td></tr>
+  <tr><td>I</td><td>time</td><td>/aɪ/</td><td>صوت مركب</td></tr>
+  <tr><td>J</td><td>juice</td><td>/dʒ/</td><td>صوت ساكن</td></tr>
+  <tr><td>K</td><td>king</td><td>/k/</td><td>صوت ساكن</td></tr>
+  <tr><td>L</td><td>lip</td><td>/l/</td><td>صوت ساكن</td></tr>
+  <tr><td>M</td><td>man</td><td>/m/</td><td>صوت ساكن</td></tr>
+  <tr><td>N</td><td>net</td><td>/n/</td><td>صوت ساكن</td></tr>
+  <tr><td>O</td><td>hot</td><td>/ɒ/ أو /ɑː/</td><td>يعتمد على اللهجة</td></tr>
+  <tr><td>O</td><td>go</td><td>/əʊ/ أو /oʊ/</td><td>صوت مركب</td></tr>
+  <tr><td>P</td><td>pen</td><td>/p/</td><td>صوت ساكن</td></tr>
+  <tr><td>Q</td><td>queen</td><td>/kw/</td><td>مكون من حرفين</td></tr>
+  <tr><td>R</td><td>red</td><td>/r/</td><td>صوت ساكن</td></tr>
+  <tr><td>S</td><td>sun</td><td>/s/</td><td>صوت ساكن</td></tr>
+  <tr><td>S</td><td>rose</td><td>/z/</td><td>مرات ينلفظ /z/</td></tr>
+  <tr><td>T</td><td>top</td><td>/t/</td><td>صوت ساكن</td></tr>
+  <tr><td>U</td><td>cup</td><td>/ʌ/</td><td>صوت قصير</td></tr>
+  <tr><td>U</td><td>cute</td><td>/juː/</td><td>صوت مركب</td></tr>
+  <tr><td>V</td><td>van</td><td>/v/</td><td>صوت ساكن</td></tr>
+  <tr><td>W</td><td>win</td><td>/w/</td><td>صوت ساكن</td></tr>
+  <tr><td>X</td><td>box</td><td>/ks/</td><td>صوتين</td></tr>
+  <tr><td>Y</td><td>yes</td><td>/j/</td><td>صوت ساكن</td></tr>
+  <tr><td>Y</td><td>happy</td><td>/i/</td><td>صوت متحرك بالنهاية</td></tr>
+  <tr><td>Z</td><td>zoo</td><td>/z/</td><td>صوت ساكن</td></tr>
+</table>
+
+</body>
+</html>
