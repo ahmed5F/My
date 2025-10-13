@@ -3,41 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-  <title>نظام كاشير المبيعات المتقدم</title>
-  
-  <!-- Firebase SDK Imports (Required for Strong/Modern System) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, addDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, getDocs, orderBy, limit, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-    import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Set Firestore log level for debugging
-    setLogLevel('Debug');
-    
-    // Global variables (will be set in init)
-    window.db = null;
-    window.auth = null;
-    window.userId = null;
-    window.initializeApp = initializeApp;
-    window.getAuth = getAuth;
-    window.signInAnonymously = signInAnonymously;
-    window.signInWithCustomToken = signInWithCustomToken;
-    window.getFirestore = getFirestore;
-    window.collection = collection;
-    window.query = query;
-    window.onSnapshot = onSnapshot;
-    window.addDoc = addDoc;
-    window.doc = doc;
-    window.setDoc = setDoc;
-    window.updateDoc = updateDoc;
-    window.deleteDoc = deleteDoc;
-    window.getDocs = getDocs;
-    window.serverTimestamp = serverTimestamp;
-    window.runTransaction = runTransaction;
-    window.onAuthStateChanged = onAuthStateChanged;
-
-  </script>
+  <title>نظام كاشير المبيعات المحلي</title>
   
   <style>
     /* الخطوط والألوان الأساسية */
@@ -131,7 +97,7 @@
       font-size: 14px;
     }
 
-    /* حالة النظام (Firebase Status) */
+    /* حالة النظام (Local Storage Status) */
     #statusRow {
         background-color: var(--card);
         border-radius: var(--radius);
@@ -454,6 +420,68 @@
       display: block;
     }
 
+    /* الإحصائيات */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .stat-card {
+      background: #f7f9fa;
+      border-radius: var(--radius);
+      padding: 15px;
+      text-align: center;
+      border: 1px solid #eef2f5;
+    }
+    
+    .stat-title {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    
+    .stat-value {
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--primary-teal-dark);
+    }
+
+    /* سجل المبيعات */
+    .history-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .history-item {
+      background: #f7f9fa;
+      border-radius: var(--radius);
+      padding: 15px;
+      margin-bottom: 10px;
+      border: 1px solid #eef2f5;
+    }
+
+    /* إعدادات التليجرام */
+    .input-group {
+      margin-bottom: 15px;
+    }
+    
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    
+    .example-box {
+      margin-top: 15px;
+      padding: 10px;
+      background: #f0f7ff;
+      border-radius: 8px;
+      border: 1px solid #c9e6ff;
+    }
+
     /* الإشعارات */
     .notification {
       position: fixed;
@@ -517,13 +545,32 @@
         padding: 8px 15px;
       }
     }
+
+    /* فئات مساعدة */
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    
+    .pay-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .cart-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
   <!-- شريط حالة النظام -->
   <div id="statusRow">
     <div style="display:flex; gap:10px; align-items:center;">
-        <span id="firebaseStatus" class="status-badge status-pending">... يتصل بالنظام</span>
+        <span id="storageStatus" class="status-badge status-connected">✅ يعمل محلياً</span>
         <span>الكاشير: <span id="cashierName">المشغل</span> <button id="changeCashierBtn" class="btn secondary" style="padding: 2px 6px; font-size: 11px; vertical-align: middle;">تغيير</button></span>
     </div>
     <div style="text-align:left">
@@ -537,8 +584,8 @@
       <div class="brand">
         <div class="logo">KSA</div>
         <div>
-          <h1>نظام الكاشير المتقدم</h1>
-          <p class="lead">إدارة المبيعات والتخزين الفوري عبر السحابة</p>
+          <h1>نظام الكاشير المحلي</h1>
+          <p class="lead">إدارة المبيعات والتخزين المحلي بدون اتصال</p>
         </div>
       </div>
     </header>
@@ -548,7 +595,7 @@
       <div style="display:flex;justify-content:space-between;align-items:center;">
           <div class="panel-title">
             <span>🍔</span>
-            <span>قائمة المنتجات (السحابة)</span>
+            <span>قائمة المنتجات (محلي)</span>
           </div>
           <button class="btn secondary" id="toggleProductManagementBtn">
               <span >🛠️</span>
@@ -579,12 +626,11 @@
               <button class="btn btn-success" id="saveProductBtn" style="flex:1">حفظ / تحديث الصنف</button>
               <button class="btn btn-danger" id="deleteProductBtn" style="flex:1; display:none;">حذف الصنف</button>
           </div>
-          <div class="small" style="margin-top:10px; color:var(--danger)">⚠️ ملاحظة: الأصناف المخزنة هي أصنافك الخاصة ولا يمكن للآخرين رؤيتها.</div>
+          <div class="small" style="margin-top:10px; color:var(--danger)">⚠️ ملاحظة: الأصناف مخزنة محلياً في المتصفح.</div>
       </div>
 
-
       <div class="menu" id="menuGrid" aria-live="polite">
-        <div class="small" style="grid-column: 1 / -1; text-align: center;">جاري تحميل الأصناف من السحابة...</div>
+        <div class="small" style="grid-column: 1 / -1; text-align: center;">جاري تحميل الأصناف...</div>
       </div>
     </section>
 
@@ -693,7 +739,7 @@
       <div class="tab-content" id="historyTab">
         <div class="panel-title">
           <span >📋</span>
-          <span>سجل المبيعات (مخزن سحابياً)</span>
+          <span>سجل المبيعات (مخزن محلياً)</span>
         </div>
         
         <div class="history-list" id="salesHistory">
@@ -760,19 +806,11 @@
       <button id="modalCloseBtn" class="btn" style="margin-top:20px;">حسناً</button>
     </div>
   </div>
-  <style>
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+  
+  <!-- Notification -->
+  <div id="notification" class="notification"></div>
 
-  <script type="module">
-    // يتم استخدام المتغيرات العامة الموفرة من البيئة
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
+  <script>
     // حالة التطبيق
     let products = [];
     let categories = [];
@@ -780,15 +818,9 @@
     let salesHistory = [];
     let cashierName = localStorage.getItem('cashierName_v1') || 'المشغل';
     let currentCategory = 'all';
-    let lastHistoryDoc = null; // للمساعدة في Pagination
+    let currentHistoryPage = 0;
     const HISTORY_LIMIT = 10;
     
-    // حالة Firebase
-    let db = null;
-    let auth = null;
-    let userId = null;
-    let isAuthReady = false;
-
     // إعدادات التليجرام (مخزنة محلياً لسهولة الوصول)
     let botToken = localStorage.getItem('telegram_bot_token') || '';
     let chatId = localStorage.getItem('telegram_chat_id') || ''; 
@@ -817,7 +849,6 @@
     const cashierNameEl = document.getElementById('cashierName');
     const changeCashierBtn = document.getElementById('changeCashierBtn');
     const categoryRings = document.getElementById('categoryRings');
-    const firebaseStatusEl = document.getElementById('firebaseStatus');
     const loadMoreHistoryBtn = document.getElementById('loadMoreHistoryBtn');
     
     // عناصر إدارة المنتجات
@@ -837,6 +868,60 @@
     const testTelegramBtn = document.getElementById('testTelegramBtn');
     const sendLastReceiptBtn = document.getElementById('sendLastReceiptBtn');
     
+    // ----------------------------------------------------------------------
+    // 1. Local Storage Functions (بديل Firebase)
+    // ----------------------------------------------------------------------
+    
+    // توليد معرف فريد
+    function generateId() {
+      return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+    
+    // الحصول على الطابع الزمني الحالي
+    function getCurrentTimestamp() {
+      return new Date().toISOString();
+    }
+    
+    // إدارة المنتجات في LocalStorage
+    function loadProductsFromStorage() {
+      try {
+        const stored = localStorage.getItem('pos_products_v2');
+        products = stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        console.error("Error loading products:", e);
+        products = [];
+      }
+    }
+    
+    function saveProductsToStorage() {
+      try {
+        localStorage.setItem('pos_products_v2', JSON.stringify(products));
+      } catch (e) {
+        console.error("Error saving products:", e);
+        showNotification('خطأ في حفظ المنتجات', 'error');
+      }
+    }
+    
+    // إدارة سجل المبيعات في LocalStorage
+    function loadSalesHistoryFromStorage() {
+      try {
+        const stored = localStorage.getItem('pos_sales_v2');
+        salesHistory = stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        console.error("Error loading sales history:", e);
+        salesHistory = [];
+      }
+    }
+    
+    function saveSalesHistoryToStorage() {
+      try {
+        localStorage.setItem('pos_sales_v2', JSON.stringify(salesHistory));
+      } catch (e) {
+        console.error("Error saving sales history:", e);
+        showNotification('خطأ في حفظ سجل المبيعات', 'error');
+      }
+    }
+    
     // دالة إظهار الرسائل بدلاً من alert()
     function showModal(title, message) {
         document.getElementById('modalTitle').textContent = title;
@@ -848,112 +933,7 @@
     }
     
     // ----------------------------------------------------------------------
-    // 1. Firebase & Auth Setup
-    // ----------------------------------------------------------------------
-
-    async function setupFirebase() {
-      if (!firebaseConfig) {
-        showNotification('خطأ: لم يتم العثور على إعدادات Firebase', 'error');
-        firebaseStatusEl.textContent = '❌ غير متصل (خطأ في التهيئة)';
-        firebaseStatusEl.className = 'status-badge status-error';
-        return;
-      }
-      
-      try {
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
-        
-        onAuthStateChanged(auth, async (user) => {
-          if (user) {
-            userId = user.uid;
-            isAuthReady = true;
-            firebaseStatusEl.textContent = '✅ متصل بالسحابة';
-            firebaseStatusEl.className = 'status-badge status-connected';
-            showNotification('تم الاتصال بقاعدة البيانات السحابية بنجاح.', 'success');
-            
-            // بعد التأكد من وجود المستخدم، ابدأ الاستماع للبيانات
-            startRealtimeListeners();
-          } else {
-            // إذا لم يتم العثور على المستخدم (حالة غير متوقعة مع التوكن المخصص)
-            showNotification('خطأ في المصادقة', 'error');
-            firebaseStatusEl.textContent = '⚠️ غير متصل (خطأ مصادقة)';
-            firebaseStatusEl.className = 'status-badge status-error';
-            isAuthReady = false;
-          }
-        });
-
-        // المصادقة باستخدام التوكن المخصص
-        if (initialAuthToken) {
-          await signInWithCustomToken(auth, initialAuthToken);
-        } else {
-          // بديل: تسجيل الدخول كمجهول إذا لم يتوفر التوكن
-          await signInAnonymously(auth);
-        }
-
-      } catch (error) {
-        console.error("Firebase init/auth error:", error);
-        showNotification('فشل الاتصال بـ Firebase', 'error');
-        firebaseStatusEl.textContent = '❌ فشل الاتصال';
-        firebaseStatusEl.className = 'status-badge status-error';
-      }
-    }
-
-    // ----------------------------------------------------------------------
-    // 2. Real-time Data Listeners
-    // ----------------------------------------------------------------------
-    
-    function getProductCollectionPath() {
-        if (!userId) return null;
-        return collection(db, `artifacts/${appId}/users/${userId}/products`);
-    }
-
-    function getSaleCollectionPath() {
-        if (!userId) return null;
-        return collection(db, `artifacts/${appId}/users/${userId}/sales`);
-    }
-
-    function startRealtimeListeners() {
-        if (!isAuthReady || !db) return;
-        
-        // 1. الاستماع لتحديثات المنتجات
-        const productsRef = getProductCollectionPath();
-        if (productsRef) {
-            onSnapshot(productsRef, (snapshot) => {
-                products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                products.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
-                
-                // تحديث الأقسام وقائمة المنتجات
-                updateCategories();
-                renderMenu(searchInput.value, currentCategory);
-            }, (error) => {
-                console.error("Error listening to products:", error);
-                showNotification('فشل في تحديث قائمة المنتجات', 'error');
-            });
-        }
-        
-        // 2. الاستماع لتحديثات سجل المبيعات (نستخدم هذا للتقارير)
-        const salesRef = getSaleCollectionPath();
-        if (salesRef) {
-            // استمع لأحدث 500 عملية فقط للحصول على إحصائيات سريعة
-            const q = query(salesRef, orderBy('date', 'desc'), limit(500));
-            onSnapshot(q, (snapshot) => {
-                salesHistory = snapshot.docs.map(doc => doc.data());
-                updateDailyStats();
-                updateReports();
-                // لا تستخدم هنا renderSalesHistory، بل استخدمها في التبويب لـ Pagination
-            }, (error) => {
-                console.error("Error listening to sales:", error);
-                showNotification('فشل في تحديث التقارير', 'error');
-            });
-        }
-        
-        // 3. تحميل السجل المرئي لأول مرة (مع pagination)
-        loadSalesHistory(true);
-    }
-    
-    // ----------------------------------------------------------------------
-    // 3. Product Management (CRUD)
+    // 2. Data Management
     // ----------------------------------------------------------------------
     
     function updateCategories() {
@@ -1001,19 +981,36 @@
         }
         
         try {
-            const productData = { name, price, category, updated: serverTimestamp() };
-            const productsRef = getProductCollectionPath();
-
             if (id) {
                 // تعديل
-                const docRef = doc(productsRef, id);
-                await updateDoc(docRef, productData);
+                const index = products.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    products[index] = {
+                        ...products[index],
+                        name,
+                        price,
+                        category,
+                        updated: getCurrentTimestamp()
+                    };
+                }
                 showNotification(`تم تحديث الصنف "${name}"`, 'success');
             } else {
                 // إضافة جديد
-                await addDoc(productsRef, { ...productData, created: serverTimestamp() });
+                const newProduct = {
+                    id: generateId(),
+                    name,
+                    price,
+                    category,
+                    created: getCurrentTimestamp(),
+                    updated: getCurrentTimestamp()
+                };
+                products.push(newProduct);
                 showNotification(`تم إضافة الصنف "${name}" بنجاح`, 'success');
             }
+            
+            saveProductsToStorage();
+            updateCategories();
+            renderMenu(searchInput.value, currentCategory);
             clearManagementForm();
         } catch (e) {
             console.error("Error saving product: ", e);
@@ -1039,8 +1036,10 @@
 
         confirmBtn.onclick = async () => {
             try {
-                const docRef = doc(getProductCollectionPath(), id);
-                await deleteDoc(docRef);
+                products = products.filter(p => p.id !== id);
+                saveProductsToStorage();
+                updateCategories();
+                renderMenu(searchInput.value, currentCategory);
                 showNotification(`تم حذف الصنف "${name}"`, 'success');
                 clearManagementForm();
             } catch (e) {
@@ -1063,7 +1062,7 @@
     }
 
     // ----------------------------------------------------------------------
-    // 4. UI Rendering (Menu & Cart)
+    // 3. UI Rendering (Menu & Cart)
     // ----------------------------------------------------------------------
 
     function renderCategoryRings() {
@@ -1221,11 +1220,11 @@
       const change = paid - total;
       changeAmount.value = change.toLocaleString() + ' د.ع';
       
-      changeAmount.style.color = change >= 0 ? varToString('--primary-teal-dark') : varToString('--danger');
+      changeAmount.style.color = change >= 0 ? 'var(--primary-teal-dark)' : 'var(--danger)';
     }
 
     // ----------------------------------------------------------------------
-    // 5. Checkout and Firestore Save
+    // 4. Checkout and Local Storage Save
     // ----------------------------------------------------------------------
 
     // الدفع النقدي
@@ -1249,20 +1248,22 @@
           return;
       }
 
-      showNotification('جاري إتمام عملية البيع والحفظ السحابي...', 'info');
+      showNotification('جاري إتمام عملية البيع والحفظ المحلي...', 'info');
 
       try {
         const saleData = {
+          id: generateId(),
           items: cart.map(item => ({...item, total: item.price * item.qty})),
           total: total,
           paid: paid,
           change: change,
           cashier: cashierName,
-          date: serverTimestamp(),
+          date: getCurrentTimestamp(),
           dateString: new Date().toLocaleString('ar-IQ'),
         };
         
-        await addDoc(getSaleCollectionPath(), saleData);
+        salesHistory.unshift(saleData);
+        saveSalesHistoryToStorage();
         
         // تفريغ العربة بعد نجاح الحفظ
         cart = [];
@@ -1271,59 +1272,49 @@
         paidAmount.value = total.toString(); // اجعل المدفوع يساوي الإجمالي افتراضياً
         updateTotals(); // لتحديث الباقي
         
-        showNotification('✅ تمت عملية البيع بنجاح وحفظت سحابياً', 'success');
+        // تحديث التقارير
+        updateDailyStats();
+        updateReports();
+        
+        showNotification('✅ تمت عملية البيع بنجاح وحفظت محلياً', 'success');
 
       } catch (e) {
         console.error("Error saving sale:", e);
-        showModal('خطأ في الحفظ', 'فشل حفظ عملية البيع على السحابة. راجع حالة الاتصال.');
+        showModal('خطأ في الحفظ', 'فشل حفظ عملية البيع محلياً.');
       }
     }
 
     // ----------------------------------------------------------------------
-    // 6. Reports and History
+    // 5. Reports and History
     // ----------------------------------------------------------------------
 
     // عرض سجل المبيعات مع Pagination
-    async function loadSalesHistory(reset = false) {
-        if (!isAuthReady) {
-            salesHistoryEl.innerHTML = '<div class="small" style="text-align: center;">الرجاء انتظار اتصال السحابة.</div>';
-            return;
-        }
-
+    function loadSalesHistory(reset = false) {
         salesHistoryEl.innerHTML = reset ? '<div class="small" style="text-align: center;">جاري التحميل...</div>' : salesHistoryEl.innerHTML;
         loadMoreHistoryBtn.disabled = true;
 
-        let q;
-        const salesRef = getSaleCollectionPath();
-
         try {
-            if (reset || !lastHistoryDoc) {
-                // استعلام التحميل الأولي
-                q = query(salesRef, orderBy('date', 'desc'), limit(HISTORY_LIMIT));
+            if (reset) {
+                currentHistoryPage = 0;
                 salesHistoryEl.innerHTML = '';
-            } else {
-                // استعلام تحميل المزيد
-                q = query(salesRef, orderBy('date', 'desc'), limit(HISTORY_LIMIT), startAfter(lastHistoryDoc));
             }
 
-            const snapshot = await getDocs(q);
+            const startIndex = currentHistoryPage * HISTORY_LIMIT;
+            const endIndex = startIndex + HISTORY_LIMIT;
+            const pageData = salesHistory.slice(startIndex, endIndex);
             
-            if (snapshot.empty && reset) {
+            if (pageData.length === 0 && reset) {
                 salesHistoryEl.innerHTML = '<div class="small" style="text-align: center;">لا توجد مبيعات محفوظة.</div>';
                 loadMoreHistoryBtn.style.display = 'none';
                 return;
-            } else if (snapshot.empty && !reset) {
+            } else if (pageData.length === 0 && !reset) {
                  showNotification('تم تحميل جميع السجلات.', 'info');
                  loadMoreHistoryBtn.style.display = 'none';
                  return;
             }
 
-            // حفظ آخر وثيقة للـ Pagination
-            lastHistoryDoc = snapshot.docs[snapshot.docs.length - 1];
-
-            snapshot.docs.forEach((doc, idx) => {
-                const s = doc.data();
-                const d = s.date?.toDate ? s.date.toDate() : new Date();
+            pageData.forEach((s, idx) => {
+                const d = new Date(s.date);
                 
                 const div = document.createElement('div');
                 div.className = 'history-item';
@@ -1331,19 +1322,20 @@
                     <div style="display:flex;justify-content:space-between;align-items:center">
                         <div>
                             <div style="font-weight:700">${d.toLocaleString('ar-IQ')}</div>
-                            <div class="small">الكاشير: ${s.cashier || 'غير معروف'} | ID: ${doc.id.substring(0, 8)}...</div>
+                            <div class="small">الكاشير: ${s.cashier || 'غير معروف'} | ID: ${s.id.substring(0, 8)}...</div>
                         </div>
                         <div style="font-weight:800; font-size:18px; color: var(--primary-teal-dark)">${(s.total || 0).toLocaleString()} د.ع</div>
                     </div>
                     <div class="small" style="margin-top:6px">المدفوع: ${(s.paid || 0).toLocaleString()} — الباقي: ${(s.change || 0).toLocaleString()}</div>
                     <div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-start">
-                        <button class="btn secondary view-sale-btn" data-id="${doc.id}">عرض وطباعة</button>
-                        <button class="btn btn-danger delete-sale-btn" data-id="${doc.id}">حذف</button>
+                        <button class="btn secondary view-sale-btn" data-id="${s.id}">عرض وطباعة</button>
+                        <button class="btn btn-danger delete-sale-btn" data-id="${s.id}">حذف</button>
                     </div>
                 `;
                 salesHistoryEl.appendChild(div);
             });
             
+            currentHistoryPage++;
             loadMoreHistoryBtn.style.display = 'block';
             loadMoreHistoryBtn.disabled = false;
             
@@ -1352,7 +1344,7 @@
 
         } catch (error) {
             console.error("Error loading history:", error);
-            showModal('خطأ', 'فشل في تحميل سجل المبيعات من السحابة.');
+            showModal('خطأ', 'فشل في تحميل سجل المبيعات.');
         }
     }
 
@@ -1373,18 +1365,15 @@
 
     async function viewAndPrintSale(saleId) {
         try {
-            const docRef = doc(getSaleCollectionPath(), saleId);
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                const s = docSnap.data();
+            const sale = salesHistory.find(s => s.id === saleId);
+            if (sale) {
                 printReceipt({
-                    items: s.items,
-                    total: s.total,
-                    paid: s.paid,
-                    change: s.change,
-                    date: s.date?.toDate ? s.date.toDate().toLocaleString('ar-IQ') : s.dateString,
-                    cashier: s.cashier
+                    items: sale.items,
+                    total: sale.total,
+                    paid: sale.paid,
+                    change: sale.change,
+                    date: sale.dateString,
+                    cashier: sale.cashier
                 });
             } else {
                 showNotification('لم يتم العثور على الفاتورة!', 'error');
@@ -1407,9 +1396,9 @@
 
         confirmBtn.onclick = async () => {
             try {
-                const docRef = doc(getSaleCollectionPath(), saleId);
-                await deleteDoc(docRef);
-                showNotification('تم حذف عملية البيع من السجل السحابي.', 'success');
+                salesHistory = salesHistory.filter(s => s.id !== saleId);
+                saveSalesHistoryToStorage();
+                showNotification('تم حذف عملية البيع من السجل.', 'success');
                 // إعادة تحميل السجل بعد الحذف
                 loadSalesHistory(true); 
             } catch (e) {
@@ -1426,7 +1415,7 @@
     function updateDailyStats() {
       const today = new Date().toDateString();
       const todaySales = salesHistory.filter(s => {
-          const date = s.date?.toDate ? s.date.toDate() : new Date();
+          const date = new Date(s.date);
           return date.toDateString() === today;
       });
       const todayTotal = todaySales.reduce((sum, s) => sum + (s.total || 0), 0);
@@ -1440,14 +1429,14 @@
         
         // المبيعات اليوم
         const todaySales = salesHistory.filter(s => {
-            const date = s.date?.toDate ? s.date.toDate() : new Date();
+            const date = new Date(s.date);
             return date.toDateString() === today;
         });
         const todayTotal = todaySales.reduce((sum, s) => sum + (s.total || 0), 0);
         todaySalesValueEl.textContent = todayTotal.toLocaleString() + ' د.ع';
         todaySalesCountEl.textContent = todaySales.length + ' عملية';
         
-        // إجمالي المبيعات (من آخر 500 عملية)
+        // إجمالي المبيعات
         const totalSales = salesHistory.reduce((sum, s) => sum + (s.total || 0), 0);
         totalSalesValueEl.textContent = totalSales.toLocaleString() + ' د.ع';
         totalSalesCountEl.textContent = salesHistory.length + ' عملية';
@@ -1480,7 +1469,7 @@
 
 
     // ----------------------------------------------------------------------
-    // 7. Utility Functions
+    // 6. Utility Functions
     // ----------------------------------------------------------------------
 
     function clearCart() {
@@ -1505,12 +1494,8 @@
       renderCart();
     }
     
-    function varToString(variableName) {
-        return getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
-    }
-    
     // ----------------------------------------------------------------------
-    // 8. Print & Telegram (Improved)
+    // 7. Print & Telegram (Improved)
     // ----------------------------------------------------------------------
 
     // طباعة الفاتورة (قالب مرئي ومخصص)
@@ -1683,12 +1668,16 @@
     }
 
     // ----------------------------------------------------------------------
-    // 9. Initialisation and Event Listeners
+    // 8. Initialisation and Event Listeners
     // ----------------------------------------------------------------------
 
     function init() {
       document.getElementById('dateNow').textContent = new Date().toLocaleString('ar-IQ');
       cashierNameEl.textContent = cashierName;
+      
+      // تحميل البيانات من التخزين المحلي
+      loadProductsFromStorage();
+      loadSalesHistoryFromStorage();
       
       // تحميل إعدادات التليجرام
       botTokenInput.value = botToken;
@@ -1696,11 +1685,16 @@
       
       loadCartFromStorage();
       
+      // تحديث الواجهة
+      updateCategories();
+      renderMenu();
+      updateDailyStats();
+      updateReports();
+      
       // إعداد الأحداث
       setupEventListeners();
       
-      // بدء Firebase
-      setupFirebase();
+      showNotification('✅ النظام يعمل محلياً بنجاح', 'success');
     }
 
     // إعداد مستمعي الأحداث
@@ -1744,90 +1738,62 @@
     
     // تصدير البيانات
     function exportSalesData() {
-        if (!isAuthReady) {
-            showModal('خطأ', 'الرجاء انتظار اتصال السحابة أولاً.');
-            return;
+        const data = salesHistory.map(s => {
+            const itemsSummary = (s.items || []).map(i => `${i.name} (${i.qty})`).join('; ');
+            const date = s.dateString || 'غير معروف';
+            
+            return {
+                'ID': s.id,
+                'Date': date,
+                'Cashier': s.cashier,
+                'Total': s.total,
+                'Paid': s.paid,
+                'Change': s.change,
+                'Items_Summary': itemsSummary
+            };
+        });
+
+        if (data.length === 0) {
+             showNotification('لا توجد بيانات لتصديرها.', 'error');
+             return;
         }
 
-        const salesRef = getSaleCollectionPath();
-        const q = query(salesRef, orderBy('date', 'desc'), limit(1000)); // تصدير 1000 عملية كحد أقصى
-
-        showNotification('جاري استخراج بيانات المبيعات...', 'info');
-
-        getDocs(q).then(snapshot => {
-            const data = snapshot.docs.map(doc => {
-                const s = doc.data();
-                const itemsSummary = (s.items || []).map(i => `${i.name} (${i.qty})`).join('; ');
-                const date = s.date?.toDate ? s.date.toDate().toLocaleString('ar-IQ') : s.dateString || 'غير معروف';
-                
-                return {
-                    'ID': doc.id,
-                    'Date': date,
-                    'Cashier': s.cashier,
-                    'Total': s.total,
-                    'Paid': s.paid,
-                    'Change': s.change,
-                    'Items_Summary': itemsSummary
-                };
-            });
-
-            if (data.length === 0) {
-                 showNotification('لا توجد بيانات لتصديرها.', 'error');
-                 return;
-            }
-
-            const header = Object.keys(data[0]).join('\t');
-            const rows = data.map(obj => Object.values(obj).join('\t')).join('\n');
-            const csvContent = `${header}\n${rows}`;
-            
-            const blob = new Blob([csvContent], { type: 'text/tab-separated-values;charset=utf-8;' });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `sales_report_${new Date().toISOString().slice(0, 10)}.tsv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showNotification(`تم تصدير ${data.length} عملية بيع بنجاح (كملف TSV).`, 'success');
-
-        }).catch(e => {
-            console.error("Export error:", e);
-            showModal('خطأ في التصدير', 'فشل تصدير البيانات من السحابة.');
-        });
+        const header = Object.keys(data[0]).join('\t');
+        const rows = data.map(obj => Object.values(obj).join('\t')).join('\n');
+        const csvContent = `${header}\n${rows}`;
+        
+        const blob = new Blob([csvContent], { type: 'text/tab-separated-values;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `sales_report_${new Date().toISOString().slice(0, 10)}.tsv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showNotification(`تم تصدير ${data.length} عملية بيع بنجاح (كملف TSV).`, 'success');
     }
 
     // إرسال آخر فاتورة من السجل
     async function sendLastReceiptFromHistory() {
-        if (!isAuthReady) {
-            showModal('خطأ', 'الرجاء انتظار اتصال السحابة أولاً.');
-            return;
-        }
-
         if (!botToken || !chatId) {
             showModal('إعدادات التليجرام', 'الرجاء إعداد بيانات التليجرام أولاً.');
             switchTab('telegram');
             return;
         }
 
-        const salesRef = getSaleCollectionPath();
-        const q = query(salesRef, orderBy('date', 'desc'), limit(1));
+        if (salesHistory.length === 0) {
+            showNotification('لا توجد فواتير في السجل.', 'error');
+            return;
+        }
+
+        const lastSale = salesHistory[0];
+        const receiptText = createReceiptText(lastSale.items, lastSale.total, lastSale.paid);
         
-        showNotification('جاري البحث عن آخر فاتورة سحابياً...', 'info');
-
+        showNotification('جاري إرسال آخر فاتورة عبر التليجرام...', 'info');
+        
         try {
-            const snapshot = await getDocs(q);
-            if (snapshot.empty) {
-                showNotification('لا توجد فواتير في السجل السحابي.', 'error');
-                return;
-            }
-
-            const s = snapshot.docs[0].data();
-            const receiptText = createReceiptText(s.items, s.total, s.paid);
-            
-            showNotification('جاري إرسال آخر فاتورة عبر التليجرام...', 'info');
             await sendTextReceiptToTelegram(receiptText);
-            
             showNotification('تم إرسال آخر فاتورة إلى التليجرام كرسالة نصية', 'success');
         } catch (error) {
             showNotification('❌ فشل في إرسال الفاتورة: ' + error.message, 'error');
@@ -1876,7 +1842,7 @@
 
       try {
         // اختبار إرسال رسالة نصية بسيطة
-        const testText = '*✅ اختبار اتصال ناجح!* نظام الكاشير جاهز لإرسال الفواتير\\.';
+        const testText = '*✅ اختبار اتصال ناجح!* نظام الكاشير المحلي جاهز لإرسال الفواتير\\.';
         await sendTextReceiptToTelegram(testText);
         
         showNotification('✅ اختبار الاتصال ناجح! تم إرسال رسالة اختبار', 'success');
@@ -1940,4 +1906,3 @@
   </script>
 </body>
 </html>
-
